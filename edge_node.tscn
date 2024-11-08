@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo48rgs16g4ok"]
+
+[ext_resource type="Script" path="res://edge.gd" id="1_jm3ux"]
+[ext_resource type="Script" path="res://BaseLine.gd" id="2_j6ask"]
+
+[node name="EdgeNode" type="Node2D"]
+top_level = true
+z_index = 1
+script = ExtResource("1_jm3ux")
+
+[node name="BaseLine" type="Node2D" parent="."]
+show_behind_parent = true
+z_index = -1
+script = ExtResource("2_j6ask")

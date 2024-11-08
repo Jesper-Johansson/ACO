@@ -1,0 +1,735 @@
+[gd_scene load_steps=31 format=3 uid="uid://da4cqo0ksnwli"]
+
+[ext_resource type="Script" path="res://main_node.gd" id="1_m8pkh"]
+[ext_resource type="Script" path="res://AmountField.gd" id="2_dojh7"]
+[ext_resource type="PackedScene" uid="uid://bo48rgs16g4ok" path="res://edge_node.tscn" id="2_n8xrd"]
+[ext_resource type="Script" path="res://ControlPanel.gd" id="3_mo031"]
+[ext_resource type="Script" path="res://AmountInput.gd" id="3_ptrs8"]
+[ext_resource type="Script" path="res://StartLabel.gd" id="5_mq0y8"]
+[ext_resource type="Script" path="res://AntAmountField.gd" id="6_5cxd0"]
+[ext_resource type="Script" path="res://AmountInput_Ant.gd" id="6_roxvg"]
+[ext_resource type="Script" path="res://SpeedInput.gd" id="7_og77a"]
+[ext_resource type="Script" path="res://SpeedField.gd" id="8_0ln36"]
+[ext_resource type="Script" path="res://AmountInputEdgeWeight.gd" id="10_jhn3n"]
+[ext_resource type="Script" path="res://EdgeWeightField.gd" id="10_kul16"]
+[ext_resource type="Script" path="res://PheromoneField.gd" id="12_o8ckm"]
+[ext_resource type="Script" path="res://AmountInputPheromone.gd" id="13_546jh"]
+[ext_resource type="Script" path="res://DecayField.gd" id="14_vv3k0"]
+[ext_resource type="Script" path="res://DecayInput.gd" id="15_3remc"]
+[ext_resource type="Script" path="res://ExploitationField.gd" id="16_xpgm0"]
+[ext_resource type="Script" path="res://ExploitationInput.gd" id="17_vor77"]
+[ext_resource type="Script" path="res://HeuristicField.gd" id="18_6trho"]
+[ext_resource type="Script" path="res://HeuristicInput.gd" id="19_4osvo"]
+[ext_resource type="Script" path="res://ElapsedTime.gd" id="21_jx1bu"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_mgo4t"]
+
+[sub_resource type="Theme" id="Theme_fjp4j"]
+Button/font_sizes/font_size = 22
+CheckButton/constants/h_separation = 14
+CheckButton/font_sizes/font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_vvlc0"]
+font_size = 20
+
+[sub_resource type="Theme" id="Theme_qb6hj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_84s3w"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 1)
+
+[sub_resource type="Theme" id="Theme_rdyuk"]
+Panel/styles/panel = SubResource("StyleBoxFlat_84s3w")
+
+[sub_resource type="LabelSettings" id="LabelSettings_5x0hl"]
+font_size = 30
+font_color = Color(0.0352941, 0.478431, 0.247059, 1)
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+shadow_color = Color(0, 0, 0, 0.368627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ffa4m"]
+bg_color = Color(0.14902, 0.14902, 0.14902, 1)
+
+[sub_resource type="Theme" id="Theme_vchaw"]
+Panel/styles/panel = SubResource("StyleBoxFlat_ffa4m")
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("cities_group", "ant_group")]
+script = ExtResource("1_m8pkh")
+cities_group = NodePath("Ground/Cities")
+ant_group = NodePath("Ground/Ants")
+
+[node name="Ground" type="Sprite2D" parent="."]
+modulate = Color(0.584314, 0.686275, 0.729412, 1)
+position = Vector2(685, 2.08165e-12)
+scale = Vector2(1238, 1080.87)
+texture = SubResource("CanvasTexture_mgo4t")
+centered = false
+
+[node name="Edges" type="Node2D" parent="Ground"]
+
+[node name="EdgeNode" parent="Ground/Edges" instance=ExtResource("2_n8xrd")]
+visible = false
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="Cities" type="Node" parent="Ground"]
+
+[node name="Ants" type="Node2D" parent="Ground"]
+
+[node name="ControlPanel" type="Panel" parent="."]
+offset_right = 500.0
+offset_bottom = 1080.0
+focus_mode = 1
+theme = SubResource("Theme_fjp4j")
+script = ExtResource("3_mo031")
+
+[node name="CityAmountField" type="Control" parent="ControlPanel"]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 450.0
+offset_bottom = 100.0
+focus_mode = 1
+script = ExtResource("2_dojh7")
+
+[node name="Label" type="Label" parent="ControlPanel/CityAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Amount of nodes:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/CityAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+max_length = 3
+script = ExtResource("3_ptrs8")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/CityAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/CityAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="NewPosButton" type="Button" parent="ControlPanel"]
+layout_mode = 2
+offset_left = 50.0
+offset_top = 120.0
+offset_right = 450.0
+offset_bottom = 160.0
+focus_mode = 0
+text = "Generate new graph"
+
+[node name="ShowEdgesField" type="Control" parent="ControlPanel"]
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 180.0
+offset_right = 450.0
+offset_bottom = 230.0
+focus_mode = 1
+
+[node name="ShowEdgesCheck" type="CheckButton" parent="ControlPanel/ShowEdgesField"]
+layout_mode = 0
+offset_right = 184.0
+offset_bottom = 44.0
+focus_mode = 0
+button_pressed = true
+text = "Show edges"
+expand_icon = true
+
+[node name="AntAmountField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 260.0
+offset_right = 450.0
+offset_bottom = 310.0
+focus_mode = 2
+script = ExtResource("6_5cxd0")
+
+[node name="Label" type="Label" parent="ControlPanel/AntAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Amount of ants:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/AntAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+max_length = 2
+script = ExtResource("6_roxvg")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/AntAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/AntAmountField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="StartButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 910.0
+offset_right = 400.0
+offset_bottom = 970.0
+focus_mode = 0
+text = "Start visualization"
+
+[node name="StopButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 980.0
+offset_right = 400.0
+offset_bottom = 1040.0
+focus_mode = 0
+theme = SubResource("Theme_qb6hj")
+disabled = true
+text = "Stop visualization"
+
+[node name="SpeedField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 100.0
+offset_top = 750.0
+offset_right = 400.0
+offset_bottom = 800.0
+focus_mode = 2
+script = ExtResource("8_0ln36")
+
+[node name="Label" type="Label" parent="ControlPanel/SpeedField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Speed:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/SpeedField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("7_og77a")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/SpeedField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/SpeedField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="EdgeWeightField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 310.0
+offset_right = 450.0
+offset_bottom = 360.0
+focus_mode = 2
+script = ExtResource("10_kul16")
+
+[node name="Label" type="Label" parent="ControlPanel/EdgeWeightField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Edge weight:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/EdgeWeightField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("10_jhn3n")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/EdgeWeightField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/EdgeWeightField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="PheromoneField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 360.0
+offset_right = 450.0
+offset_bottom = 410.0
+focus_mode = 2
+script = ExtResource("12_o8ckm")
+
+[node name="Label" type="Label" parent="ControlPanel/PheromoneField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Pheromone weight:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/PheromoneField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("13_546jh")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/PheromoneField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/PheromoneField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="DecayField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 410.0
+offset_right = 450.0
+offset_bottom = 460.0
+focus_mode = 2
+script = ExtResource("14_vv3k0")
+
+[node name="Label" type="Label" parent="ControlPanel/DecayField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Decay:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/DecayField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("15_3remc")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/DecayField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/DecayField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+text = "+"
+
+[node name="ResetButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 840.0
+offset_right = 380.0
+offset_bottom = 900.0
+focus_mode = 0
+text = "Clear pheromones"
+
+[node name="ACSCheck" type="CheckButton" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 500.0
+offset_right = 195.0
+offset_bottom = 539.0
+focus_mode = 0
+text = "Use ACS"
+
+[node name="ExploitationField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 550.0
+offset_right = 450.0
+offset_bottom = 600.0
+focus_mode = 2
+script = ExtResource("16_xpgm0")
+
+[node name="Label" type="Label" parent="ControlPanel/ExploitationField"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Exploitation rate:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/ExploitationField"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("17_vor77")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/ExploitationField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+disabled = true
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/ExploitationField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+disabled = true
+text = "+"
+
+[node name="HeuristicField" type="Control" parent="ControlPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 600.0
+offset_right = 450.0
+offset_bottom = 650.0
+focus_mode = 2
+script = ExtResource("18_6trho")
+
+[node name="Label" type="Label" parent="ControlPanel/HeuristicField"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+text = "Heuristic factor:"
+label_settings = SubResource("LabelSettings_vvlc0")
+vertical_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="ControlPanel/HeuristicField"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+focus_mode = 1
+script = ExtResource("19_4osvo")
+
+[node name="MinusButton" type="Button" parent="ControlPanel/HeuristicField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.1
+anchor_right = 0.83
+anchor_bottom = 0.9
+focus_mode = 0
+disabled = true
+text = "-"
+
+[node name="PlusButton" type="Button" parent="ControlPanel/HeuristicField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.1
+anchor_right = 0.94
+anchor_bottom = 0.9
+focus_mode = 0
+disabled = true
+text = "+"
+
+[node name="ImportButton" type="Button" parent="ControlPanel"]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 180.0
+offset_right = 450.0
+offset_bottom = 219.0
+text = "Import Graph"
+
+[node name="ImportPanel" type="Panel" parent="ControlPanel"]
+visible = false
+top_level = true
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 1080.0
+theme = SubResource("Theme_rdyuk")
+
+[node name="Label" type="Label" parent="ControlPanel/ImportPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 480.0
+offset_bottom = 220.0
+theme_override_font_sizes/font_size = 22
+text = "Paste raw text of the graph's node positions down below. Use the format:
+
+x, y                  126, 590
+x, y      	e.g       86, 201
+x, y                  1044, 410"
+autowrap_mode = 3
+
+[node name="TextEdit" type="TextEdit" parent="ControlPanel/ImportPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 250.0
+offset_right = 480.0
+offset_bottom = 1000.0
+
+[node name="CancelButton" type="Button" parent="ControlPanel/ImportPanel"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 1010.0
+offset_right = 340.0
+offset_bottom = 1065.0
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="ControlPanel/ImportPanel"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 1010.0
+offset_right = 480.0
+offset_bottom = 1065.0
+text = "Import
+"
+
+[node name="StartLabel" type="Label" parent="."]
+visible = false
+top_level = true
+z_index = 5
+offset_right = 65.0
+offset_bottom = 42.0
+size_flags_horizontal = 4
+text = "Start"
+label_settings = SubResource("LabelSettings_5x0hl")
+horizontal_alignment = 1
+script = ExtResource("5_mq0y8")
+
+[node name="StatsPanel" type="Panel" parent="."]
+offset_left = 500.0
+offset_right = 685.0
+offset_bottom = 1080.0
+theme = SubResource("Theme_vchaw")
+
+[node name="Best" type="Label" parent="StatsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 20.0
+offset_right = 175.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 22
+text = "Best solution:
+-"
+horizontal_alignment = 1
+
+[node name="GlobalBest" type="Label" parent="StatsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 100.0
+offset_right = 175.0
+offset_bottom = 165.0
+theme_override_font_sizes/font_size = 22
+text = "Globally best
+-"
+horizontal_alignment = 1
+
+[node name="EdgesUsed" type="Label" parent="StatsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 180.0
+offset_right = 175.0
+offset_bottom = 245.0
+theme_override_font_sizes/font_size = 22
+text = "Edges in use:
+-"
+horizontal_alignment = 1
+
+[node name="Iteration" type="Label" parent="StatsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 300.0
+offset_right = 175.0
+offset_bottom = 365.0
+theme_override_font_sizes/font_size = 22
+text = "Iteration #-"
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[node name="ElapsedTime" type="Label" parent="StatsPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 1000.0
+offset_right = 175.0
+offset_bottom = 1065.0
+theme_override_font_sizes/font_size = 22
+text = "Elapsed time:
+00:00:000"
+horizontal_alignment = 1
+script = ExtResource("21_jx1bu")
+
+[connection signal="focus_exited" from="ControlPanel/CityAmountField/AmountInput" to="ControlPanel/CityAmountField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/CityAmountField/AmountInput" to="ControlPanel/CityAmountField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/CityAmountField/AmountInput" to="ControlPanel/CityAmountField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/CityAmountField/MinusButton" to="ControlPanel/CityAmountField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/CityAmountField/PlusButton" to="ControlPanel/CityAmountField" method="_on_plus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/NewPosButton" to="." method="_on_new_pos_button_pressed"]
+[connection signal="toggled" from="ControlPanel/ShowEdgesField/ShowEdgesCheck" to="." method="_on_show_edges_check_toggled"]
+[connection signal="focus_exited" from="ControlPanel/AntAmountField/AmountInput" to="ControlPanel/AntAmountField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/AntAmountField/AmountInput" to="ControlPanel/AntAmountField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/AntAmountField/AmountInput" to="ControlPanel/AntAmountField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/AntAmountField/MinusButton" to="ControlPanel/AntAmountField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/AntAmountField/PlusButton" to="ControlPanel/AntAmountField" method="_on_plus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StartButton" to="ControlPanel" method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StartButton" to="ControlPanel/CityAmountField" method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StartButton" to="ControlPanel/AntAmountField" method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StartButton" to="StatsPanel/ElapsedTime" method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StopButton" to="ControlPanel" method="_on_stop_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StopButton" to="ControlPanel/CityAmountField" method="_on_stop_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StopButton" to="ControlPanel/AntAmountField" method="_on_stop_button_pressed"]
+[connection signal="pressed" from="ControlPanel/StopButton" to="StatsPanel/ElapsedTime" method="_on_stop_button_pressed"]
+[connection signal="focus_exited" from="ControlPanel/SpeedField/AmountInput" to="ControlPanel/SpeedField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/SpeedField/AmountInput" to="ControlPanel/SpeedField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/SpeedField/AmountInput" to="ControlPanel/SpeedField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/SpeedField/MinusButton" to="ControlPanel/SpeedField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/SpeedField/PlusButton" to="ControlPanel/SpeedField" method="_on_plus_button_pressed"]
+[connection signal="focus_exited" from="ControlPanel/EdgeWeightField/AmountInput" to="ControlPanel/EdgeWeightField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/EdgeWeightField/AmountInput" to="ControlPanel/EdgeWeightField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/EdgeWeightField/AmountInput" to="ControlPanel/EdgeWeightField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/EdgeWeightField/MinusButton" to="ControlPanel/EdgeWeightField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/EdgeWeightField/PlusButton" to="ControlPanel/EdgeWeightField" method="_on_plus_button_pressed"]
+[connection signal="focus_exited" from="ControlPanel/PheromoneField/AmountInput" to="ControlPanel/PheromoneField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/PheromoneField/AmountInput" to="ControlPanel/PheromoneField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/PheromoneField/AmountInput" to="ControlPanel/PheromoneField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/PheromoneField/MinusButton" to="ControlPanel/PheromoneField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/PheromoneField/PlusButton" to="ControlPanel/PheromoneField" method="_on_plus_button_pressed"]
+[connection signal="focus_exited" from="ControlPanel/DecayField/AmountInput" to="ControlPanel/DecayField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/DecayField/AmountInput" to="ControlPanel/DecayField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/DecayField/AmountInput" to="ControlPanel/DecayField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/DecayField/MinusButton" to="ControlPanel/DecayField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/DecayField/PlusButton" to="ControlPanel/DecayField" method="_on_plus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="toggled" from="ControlPanel/ACSCheck" to="." method="_on_acs_check_toggled"]
+[connection signal="toggled" from="ControlPanel/ACSCheck" to="ControlPanel" method="_on_acs_check_toggled"]
+[connection signal="focus_exited" from="ControlPanel/ExploitationField/AmountInput" to="ControlPanel/ExploitationField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/ExploitationField/AmountInput" to="ControlPanel/ExploitationField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/ExploitationField/AmountInput" to="ControlPanel/ExploitationField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/ExploitationField/MinusButton" to="ControlPanel/ExploitationField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/ExploitationField/PlusButton" to="ControlPanel/ExploitationField" method="_on_plus_button_pressed"]
+[connection signal="focus_exited" from="ControlPanel/HeuristicField/AmountInput" to="ControlPanel/HeuristicField/AmountInput" method="_on_focus_exited"]
+[connection signal="gui_input" from="ControlPanel/HeuristicField/AmountInput" to="ControlPanel/HeuristicField/AmountInput" method="_on_gui_input"]
+[connection signal="text_changed" from="ControlPanel/HeuristicField/AmountInput" to="ControlPanel/HeuristicField/AmountInput" method="_on_text_changed"]
+[connection signal="pressed" from="ControlPanel/HeuristicField/MinusButton" to="ControlPanel/HeuristicField" method="_on_minus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/HeuristicField/PlusButton" to="ControlPanel/HeuristicField" method="_on_plus_button_pressed"]
+[connection signal="pressed" from="ControlPanel/ImportButton" to="ControlPanel" method="_on_import_button_pressed"]
+[connection signal="pressed" from="ControlPanel/ImportPanel/CancelButton" to="ControlPanel" method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="ControlPanel/ImportPanel/ConfirmButton" to="ControlPanel" method="_on_confirm_button_pressed"]
